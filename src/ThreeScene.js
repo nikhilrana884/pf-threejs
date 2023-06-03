@@ -36,6 +36,13 @@ const ThreeScene = () => {
     house.position.set(0, planetRadius + houseSize * 0.5, 0);
     scene.add(house);
 
+    const rocketSize = planetRadius * 0.05;
+    const rocketGeometry = new THREE.BoxGeometry(rocketSize, rocketSize, rocketSize);
+    const rocketMaterial = new THREE.MeshPhongMaterial({ color: 0xffff00 });
+    const rocket = new THREE.Mesh(rocketGeometry, rocketMaterial);
+    rocket.position.set(0, planetRadius + houseSize, 0);
+    scene.add(rocket);
+
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
     scene.add(ambientLight);
@@ -64,6 +71,13 @@ const ThreeScene = () => {
     camera.position.set(0, house.position.y, planetRadius * 0.5);
     camera.lookAt(house.position);
 
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.target = house.position; 
+    controls.minDistance = planetRadius * 0.4; 
+    controls.maxDistance = planetRadius * 1; 
+    controls.minPolarAngle = Math.PI / 4; 
+    controls.maxPolarAngle = Math.PI / 2; 
+    
     const animate = () => {
       requestAnimationFrame(animate);
 
