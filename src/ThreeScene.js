@@ -45,6 +45,21 @@ const ThreeScene = () => {
     directionalLight.position.set(10, 10, 10);
     scene.add(directionalLight);
 
+    const numStars = 200;
+    const starSize = 0.05;
+    const starGeometry = new THREE.SphereGeometry(starSize, 8, 8);
+    const starMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
+    for (let i = 0; i < numStars; i++) {
+      const star = new THREE.Mesh(starGeometry, starMaterial);
+      const starDistance = Math.random() * planetRadius * 10;
+      const starAngle = Math.random() * Math.PI * 2;
+      const starX = starDistance * Math.cos(starAngle);
+      const starY = starDistance * Math.sin(starAngle);
+      const starZ = (Math.random() - 0.5) * planetRadius * 20;
+      star.position.set(starX, starY, starZ);
+      scene.add(star);
+    }
 
     camera.position.set(0, house.position.y, planetRadius * 0.5);
     camera.lookAt(house.position);
@@ -62,6 +77,7 @@ const ThreeScene = () => {
     animate();
 
     return () => {
+      // Cleanup function
       renderer.dispose();
    
     };
